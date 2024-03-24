@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: auto-sync-app
+  namespace: argocd
+spec:
+  destination:
+    namespace: auto-sync-app
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    path: sub-dir-argo
+    repoURL: "https://github.com/MedievalMarkup/Manifests-ArgoCD.git"
+    targetRevision: master
+    directory:
+      recurse: true
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

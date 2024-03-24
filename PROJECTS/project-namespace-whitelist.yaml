@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: project1
+  namespace: argocd
+spec:
+  description: application in this project will only create resources in ns-1 namespace.
+  sourceRepos: 
+    - "*"
+  destinations:
+    - namespace: ns1
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

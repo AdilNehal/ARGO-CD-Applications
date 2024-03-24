@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: project1
+  namespace: argocd
+spec:
+  description: project description
+  sourceRepos: 
+    - "*"
+  destinations:
+    - server: "*"
+      namespace: "*"
+  # whitelist which resources to be deployed, namespace, etc.
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

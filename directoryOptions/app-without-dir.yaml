@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: guestbook
+  namespace: argocd
+spec: 
+  destination: 
+    namespace: guestbook
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    #--------------path in git repo -------------------
+    path: sub-dir-argo
+    #----------------manifests repo-----------------------
+    repoURL: "https://github.com/MedievalMarkup/Manifests-ArgoCD.git"
+    targetRevision: main
+    directory:
+      recurse: true
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

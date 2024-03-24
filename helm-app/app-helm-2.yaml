@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: guestbook
+  namespace: argocd
+spec: 
+  destination: 
+    namespace: guestbook
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    #--------------path in git repo -------------------
+    path: argo-cd-helm
+    #----------------manifests repo-----------------------
+    repoURL: "https://github.com/MedievalMarkup/Manifests-ArgoCD.git"
+    targetRevision: main
+    helm:
+      releaseName: my-release
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
