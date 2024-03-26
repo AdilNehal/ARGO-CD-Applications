@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: demo-shared-resources
+  namespace: argocd
+spec:
+  destination:
+    namespace: guestbook-demo-project
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    path: guestbook
+    repoURL: "https://github.com/MedievalMarkup/Manifests-ArgoCD.git"
+    targetRevision: main
+    directory:
+      recurse: true
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+      # argocd won't sync the application due to failing on shared resources after enabling this option. 
+      - FailOnSharedResource=true
