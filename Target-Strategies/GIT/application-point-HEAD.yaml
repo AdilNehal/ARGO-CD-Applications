@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: guestbook
+  namespace: argocd
+spec: 
+  destination: 
+    namespace: guestbook
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    #--------------path in git repo -------------------
+    path: guestbook
+    #----------------manifests repo-----------------------
+    repoURL: "https://github.com/MedievalMarkup/Manifests-ArgoCD.git"
+    targetRevision: main
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
+
+# cat .git/HEAD -> ref: refs/heads/main
+
+# HEAD is a symbolic reference pointing to wherever you are in your commit history. It follows you wherever you go, whatever you do, like a shadow. If you make a commit, HEAD will move. If you checkout something, HEAD will move. Whatever you do, if you have moved somewhere new in your commit history, HEAD has moved along with you.
