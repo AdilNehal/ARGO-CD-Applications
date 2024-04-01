@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook-1
+  namespace: argocd
+spec:
+  generators:
+  # all clusters from a secret | remote or local
+  - clusters: {}
+  template:
+    metadata:
+      name: '{{name}}-guestbook-1'
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/MedievalMarkup/Manifests-ArgoCD.git
+        targetRevision: master
+        path: guestbook
+      destination:
+        server: '{{server}}'
+        namespace: guestbook-1
+      syncPolicy:
+         syncOptions:
+          - CreateNamespace=true
