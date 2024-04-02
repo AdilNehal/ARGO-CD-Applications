@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: security-apps-matrix
+  namespace: argocd
+spec:
+  generators:
+  - matrix:
+      # max two child matrix generators
+      generators:
+      - git:
+          repoURL: https://github.com/MedievalMarkup/Manifests-ArgoCD.git
+          revision: main
+          directories:
+          - path: helmcharts/security-policy-charts/*
+      - clusters:
+          selector:
+            matchLabels:
+              non-prod: "true"
+  template:
+    metadata:
+      # nameNormalized -> cluster name, provided by cluster generator
+      # path.basename -> provided by git generator
+      name: '{{ nameNormalized }}-{{path.basename}}'
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/MedievalMarkup/Manifests-ArgoCD.git
+        targetRevision: master
+        path: '{{path}}'
+      destination:
+        server: '{{server}}'
+        namespace: '{{ nameNormalized }}-{{path.basename}}'
+      syncPolicy:
+         syncOptions:
+          - CreateNamespace=true
+
