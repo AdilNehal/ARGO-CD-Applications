@@ -14,6 +14,8 @@ spec:
     #----------------manifests repo-----------------------
     repoURL: "https://github.com/MedievalMarkup/Manifests-ArgoCD.git"
     targetRevision: main
+    directory:
+      recurse: true
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
